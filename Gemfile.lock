@@ -1,0 +1,30 @@
+GIT
+  remote: https://github.com/budnik/simplecov-lcov.git
+  revision: 3701f1596b029dae655cb118b44ebabaac1bee97
+  specs:
+    simplecov-lcov (0.8.0)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    docile (1.4.1)
+    simplecov (0.22.0)
+      docile (~> 1.1)
+      simplecov-html (~> 0.11)
+      simplecov_json_formatter (~> 0.1)
+    simplecov-html (0.12.3)
+    simplecov_json_formatter (0.1.4)
+
+PLATFORMS
+  arm64-darwin-23
+  ruby
+
+DEPENDENCIES
+  simplecov
+  simplecov-lcov!
+
+RUBY VERSION
+   ruby 3.3.4p94
+
+BUNDLED WITH
+   2.5.16
