@@ -1,0 +1,46 @@
+name: Tests
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+# Allow to run only single job per branch.
+# References: https://docs.github.com/en/actions/using-jobs/using-concurrency
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ !contains(github.ref, 'main')}}
+
+env:
+  RUBYOPT: "--enable=frozen-string-literal --yjit"
+  SECRET_KEY_BASE: "1234567"
+
+jobs:
+  test:
+    name: Bundler
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      # poppler vulnerability https://ubuntu.com/security/notices/USN-6915-1
+      - name: poppler vulnerability
+        run: sudo apt-get update
+
+      - name: Install libvips
+        run: sudo apt-get install -y --no-install-recommends libvips
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+        env:
+          BUNDLE_DEPLOYMENT: "true"
+          BUNDLE_CACHE_ALL: "true"
+
+      - name: Check formatting
+        run: bundle exec ruby main.rb
